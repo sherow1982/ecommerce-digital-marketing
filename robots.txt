@@ -1,0 +1,41 @@
+# robots.txt for E-commerce Digital Marketing
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /node_modules/
+Disallow: /.env
+Disallow: /.DS_Store
+
+# Allow specific search engines to crawl faster
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Sitemap
+Sitemap: https://sherow1982.github.io/ecommerce-digital-marketing/sitemap.xml
+
+# Crawl delay for other bots
+User-agent: *
+Crawl-delay: 1
+Request-rate: 1/5s
