@@ -1,0 +1,33 @@
+# GitHub Pages Configuration
+theme: jekyll-theme-minimal
+title: E-Commerce Digital Marketing Portfolio
+description: Professional Digital Marketing & E-Commerce Solutions for US, European, and Middle Eastern Markets
+author: Sherif Salama
+url: https://sherow1982.github.io/ecommerce-digital-marketing
+
+# Social links
+github_username: sherow1982
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Services
+    url: /SERVICES.md
+  - title: Case Studies
+    url: /CASE_STUDIES.md
+  - title: Contact
+    url: /CONTACT.md
+  - title: GitHub
+    url: https://github.com/sherow1982/ecommerce-digital-marketing
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+
+# Google Analytics (optional)
+google_analytics: 
+
+# Footer
+footer_text: Built with ❤️ for global entrepreneurs. WhatsApp: https://wa.me/201110760081
