@@ -5,29 +5,35 @@ description: Professional Digital Marketing & E-Commerce Solutions for US, Europ
 author: Sherif Salama
 url: https://sherow1982.github.io/ecommerce-digital-marketing
 
-# Social links
+# Repository
 github_username: sherow1982
-
-# Navigation
-navigation:
-  - title: Home
-    url: /
-  - title: Services
-    url: /SERVICES.md
-  - title: Case Studies
-    url: /CASE_STUDIES.md
-  - title: Contact
-    url: /CONTACT.md
-  - title: GitHub
-    url: https://github.com/sherow1982/ecommerce-digital-marketing
+repository: sherow1982/ecommerce-digital-marketing
 
 # Build settings
 markdown: kramdown
 plugins:
   - jekyll-feed
 
-# Google Analytics (optional)
-google_analytics: 
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .gitignore
+  - README.md
 
-# Footer
-footer_text: Built with ❤️ for global entrepreneurs. WhatsApp: https://wa.me/201110760081
+# Show excerpts on index
+show_excerpts: true
+
+# Permalink
+permalink: /:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
