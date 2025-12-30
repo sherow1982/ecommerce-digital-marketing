@@ -1,0 +1,276 @@
+<!-- Google Analytics 4 Configuration -->
+<!-- Measurement ID: G-97MK8LJN02 -->
+
+<!-- Google Tag Manager Script (async loading) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-97MK8LJN02"></script>
+
+<!-- Enhanced GA4 Configuration -->
+<script>
+  // Initialize data layer
+  window.dataLayer = window.dataLayer || [];
+  
+  // gtag function definition
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  
+  // Set consent defaults (GDPR compliant)
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied',
+    'functionality_storage': 'denied',
+    'personalization_storage': 'denied',
+    'security_storage': 'granted',
+    'wait_for_update': 500
+  });
+  
+  // Initialize GA4
+  gtag('js', new Date());
+  
+  // Main GA4 config
+  gtag('config', 'G-97MK8LJN02', {
+    'page_path': window.location.pathname + window.location.search,
+    'page_title': document.title,
+    'cookie_flags': 'SameSite=None;Secure',
+    'send_page_view': true,
+    'allow_google_signals': true,
+    'allow_ad_personalization_signals': false,
+    'anonymize_ip': false,
+    'linker': {
+      'domains': ['sherow1982.github.io', 'ecommerce-digital-marketing.pages.dev']
+    }
+  });
+
+  // Enhanced ecommerce tracking configuration
+  gtag('config', 'G-97MK8LJN02', {
+    'page_location': window.location.href,
+    'debug_mode': false
+  });
+
+  // Track page views with referrer
+  gtag('event', 'page_view', {
+    'page_referrer': document.referrer,
+    'page_location': window.location.href,
+    'page_title': document.title,
+    'custom_event': 'page_loaded'
+  });
+
+  // Error tracking function
+  function trackError(errorMessage, errorSource, errorLine) {
+    gtag('event', 'exception', {
+      'description': errorMessage,
+      'fatal': false,
+      'error_source': errorSource,
+      'error_line': errorLine
+    });
+  }
+
+  // Attach global error handler
+  window.addEventListener('error', function(event) {
+    trackError(event.message, event.filename, event.lineno);
+  });
+
+  // Unhandled promise rejection tracking
+  window.addEventListener('unhandledrejection', function(event) {
+    trackError('Unhandled Promise Rejection: ' + event.reason, 'Promise', 0);
+  });
+
+  // Track user engagement (scroll depth)
+  var scrollTracked = false;
+  function trackScrollDepth() {
+    if (!scrollTracked) {
+      var scrollPercentage = Math.round(
+        (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100
+      );
+      
+      if (scrollPercentage >= 50) {
+        gtag('event', 'scroll', {
+          'percent_scrolled': scrollPercentage,
+          'engagement_time_msec': 100
+        });
+        scrollTracked = true;
+      }
+    }
+  }
+
+  // Debounced scroll tracking
+  var scrollTimeout;
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function() {
+      trackScrollDepth();
+    }, 500);
+  }, { passive: true });
+
+  // Track outbound links
+  document.addEventListener('click', function(event) {
+    var link = event.target.closest('a');
+    if (link && link.href && !link.href.startsWith(window.location.origin)) {
+      gtag('event', 'click', {
+        'outbound': true,
+        'link_domain': new URL(link.href).hostname,
+        'link_url': link.href,
+        'link_text': link.textContent || 'Unknown'
+      });
+    }
+  });
+
+  // Track file downloads
+  document.addEventListener('click', function(event) {
+    var link = event.target.closest('a');
+    if (link) {
+      var href = link.href;
+      var fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'zip', 'txt', 'csv'];
+      var extension = href.split('.').pop().toLowerCase();
+      
+      if (fileExtensions.includes(extension)) {
+        gtag('event', 'file_download', {
+          'file_name': href.split('/').pop(),
+          'file_extension': extension,
+          'file_url': href
+        });
+      }
+    }
+  });
+
+  // Track form submissions
+  document.addEventListener('submit', function(event) {
+    var form = event.target;
+    gtag('event', 'form_submit', {
+      'form_name': form.name || form.id || 'Unknown Form',
+      'form_destination': window.location.href,
+      'engagement_time_msec': 100
+    });
+  });
+
+  // Track video engagement (if YouTube embeds present)
+  function trackVideoEngagement() {
+    var videos = document.querySelectorAll('iframe[src*="youtube.com"]');
+    if (videos.length > 0) {
+      gtag('event', 'video_engagement', {
+        'video_count': videos.length,
+        'page_title': document.title
+      });
+    }
+  }
+
+  // Track video on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', trackVideoEngagement);
+  } else {
+    trackVideoEngagement();
+  }
+
+  // Track time on page
+  var pageLoadTime = new Date().getTime();
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = new Date().getTime() - pageLoadTime;
+    if (timeOnPage > 2000) { // Only track if more than 2 seconds
+      gtag('event', 'engagement', {
+        'engagement_time_msec': timeOnPage,
+        'session_engaged': true
+      });
+    }
+  });
+
+  // Performance metrics tracking (if available)
+  if (window.performance && window.performance.timing) {
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        var timings = window.performance.timing;
+        var pageLoadTime = timings.loadEventEnd - timings.navigationStart;
+        
+        gtag('event', 'page_load_time', {
+          'page_load_time_ms': pageLoadTime,
+          'dns_lookup': timings.domainLookupEnd - timings.domainLookupStart,
+          'tcp_connection': timings.connectEnd - timings.connectStart,
+          'ttfb': timings.responseStart - timings.navigationStart
+        });
+      }, 0);
+    });
+  }
+
+  // Track Internal Site Search (if applicable)
+  function trackSiteSearch(searchQuery) {
+    if (searchQuery) {
+      gtag('event', 'view_search_results', {
+        'search_term': searchQuery,
+        'results_count': document.querySelectorAll('.search-result').length || 0
+      });
+    }
+  }
+
+  // Expose to global scope for manual calls
+  window.trackCustomEvent = function(eventName, eventData) {
+    gtag('event', eventName, eventData || {});
+  };
+
+  window.trackSiteSearch = trackSiteSearch;
+  window.trackError = trackError;
+</script>
+
+<!-- Structured Data for Rich Snippets -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://sherow1982.github.io/ecommerce-digital-marketing/",
+  "name": "E-commerce Digital Marketing",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://sherow1982.github.io/ecommerce-digital-marketing/?s={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Performance Observer for Core Web Vitals (optional but recommended) -->
+<script>
+  if ('PerformanceObserver' in window) {
+    try {
+      // Largest Contentful Paint (LCP)
+      new PerformanceObserver(function(entryList) {
+        var entries = entryList.getEntries();
+        var lastEntry = entries[entries.length - 1];
+        gtag('event', 'page_view', {
+          'metrics': {
+            'LCP': lastEntry.renderTime || lastEntry.loadTime
+          }
+        });
+      }).observe({ entryTypes: ['largest-contentful-paint'] });
+
+      // First Input Delay (FID)
+      new PerformanceObserver(function(entryList) {
+        var entries = entryList.getEntries();
+        entries.forEach(function(entry) {
+          gtag('event', 'page_view', {
+            'metrics': {
+              'FID': entry.processingDuration
+            }
+          });
+        });
+      }).observe({ entryTypes: ['first-input'] });
+
+      // Cumulative Layout Shift (CLS)
+      new PerformanceObserver(function(entryList) {
+        var entries = entryList.getEntries();
+        var clsValue = 0;
+        entries.forEach(function(entry) {
+          if (!entry.hadRecentInput) {
+            clsValue += entry.value;
+          }
+        });
+        gtag('event', 'page_view', {
+          'metrics': {
+            'CLS': clsValue
+          }
+        });
+      }).observe({ entryTypes: ['layout-shift'] });
+    } catch(e) {
+      // Silently fail if performance observer not available
+    }
+  }
+</script>
